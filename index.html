@@ -10,8 +10,8 @@ h1{font-size:1.25rem;margin:0}h2{font-size:1.1rem;margin:0 0 8px}h3{font-size:1r
 .who{text-align:right;display:flex;flex-direction:column;align-items:flex-end}
 .notice{background:#fff7e6;border:1px solid #f0d9a8;color:#6b4a00;border-radius:10px;padding:8px 12px;font-size:.85rem;margin-bottom:10px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0}
-nav{display:flex;gap:6px;overflow-x:auto;position:sticky;top:0;background:var(--bg);padding:6px 0;z-index:5}
-nav button{flex:0 0 auto;border-radius:999px}nav button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+nav{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;background:var(--bg);padding:6px 0;z-index:5}
+nav button{flex:0 0 auto;border-radius:999px;padding:7px 12px;min-height:38px;font-size:.92rem}nav button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
 button{font:inherit;padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;min-height:42px}
 button:disabled{opacity:.45;cursor:not-allowed}button.primary{background:var(--acc);color:#fff;border-color:var(--acc)}button.big{width:100%;padding:13px}
 button.danger{color:var(--bad);border-color:#e7b8b4}button.link{border:0;background:none;color:var(--acc);padding:2px;min-height:0}
@@ -632,8 +632,15 @@ function bindSignIn() {
     error ? toast(errMsg(error), true) : toast('Check your email for the sign-in link');
   };
 }
+async function signOut() {
+  const so = $('#signout'); if (so) { so.disabled = true; so.textContent = 'Signing out…'; }
+  // sign out on this device even if the network call fails, then reload WITHOUT any #access_token left in the address
+  try { if (!window.__TEST_TOKEN) await Promise.race([sb.auth.signOut({ scope: 'local' }), new Promise((r) => setTimeout(r, 4000))]); } catch (e) { /* ignore */ }
+  try { Object.keys(localStorage).filter((k) => k.startsWith('sb-')).forEach((k) => localStorage.removeItem(k)); } catch (e) { /* ignore */ }
+  location.replace(location.origin + location.pathname);
+}
 function bindCommon() {
-  const so = $('#signout'); if (so) so.onclick = async () => { await sb.auth.signOut(); location.reload(); };
+  const so = $('#signout'); if (so) so.onclick = signOut;
   document.querySelectorAll('nav button').forEach((b) => (b.onclick = () => { S.tab = b.dataset.tab; render(); window.scrollTo(0, 0); }));
 }
 
@@ -927,8 +934,13 @@ const stripU = (o) => { for (const k of Object.keys(o)) if (o[k] === undefined) 
 // ---------- start ----------
 (async function start() {
   $('#app').innerHTML = '<div class="card">Loading…</div>';
+  const hp = new URLSearchParams(location.hash.slice(1) + '&' + location.search.slice(1));
+  const authErr = hp.get('error_description');
   try { await loadAll(); } catch (e) { toast(errMsg(e), true); }
+  // remove sign-in tokens / codes from the address bar so a reload or shared link never carries them
+  if (location.href.includes('#') || /code=|error/.test(location.search)) history.replaceState(null, '', location.pathname);
   render();
+  if (authErr) toast('Sign-in problem: ' + authErr.replace(/\+/g, ' '), true);
   if (!window.__TEST_TOKEN) sb.auth.onAuthStateChange(async (ev) => { if (ev === 'SIGNED_IN' || ev === 'SIGNED_OUT') { await loadAll(); render(); } });
   window.__appReady = true;
 })();
