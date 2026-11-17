@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Telangana NEET PG Mock Counselling (Unofficial)</title>
+<style>
+:root{--bg:#f6f4ef;--card:#fff;--ink:#1d2a26;--mut:#5d6b66;--line:#e3e0d8;--acc:#0f6e56;--acc2:#e8f3ef;--warn:#9a4b00;--bad:#b3261e}
+*{box-sizing:border-box}body{margin:0;font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+#app{max-width:760px;margin:0 auto;padding:12px 12px 80px}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:6px 2px 10px}
+h1{font-size:1.25rem;margin:0}h2{font-size:1.1rem;margin:0 0 8px}h3{font-size:1rem;margin:0 0 8px}.sub{color:var(--mut);font-size:.85rem}
+.who{text-align:right;display:flex;flex-direction:column;align-items:flex-end}
+.notice{background:#fff7e6;border:1px solid #f0d9a8;color:#6b4a00;border-radius:10px;padding:8px 12px;font-size:.85rem;margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0}
+nav{display:flex;gap:6px;overflow-x:auto;position:sticky;top:0;background:var(--bg);padding:6px 0;z-index:5}
+nav button{flex:0 0 auto;border-radius:999px}nav button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+button{font:inherit;padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;min-height:42px}
+button:disabled{opacity:.45;cursor:not-allowed}button.primary{background:var(--acc);color:#fff;border-color:var(--acc)}button.big{width:100%;padding:13px}
+button.danger{color:var(--bad);border-color:#e7b8b4}button.link{border:0;background:none;color:var(--acc);padding:2px;min-height:0}
+input,select,textarea{font:inherit;width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+label{display:block;margin:8px 0;font-size:.9rem;color:var(--mut)}label input,label select{margin-top:4px;color:var(--ink)}
+label.chk{display:flex;gap:8px;align-items:center;color:var(--ink)}label.chk input{width:auto;margin:0}
+.row{display:flex;gap:8px;align-items:center;margin:8px 0}.row.wrap{flex-wrap:wrap}.row>input,.row>select{flex:1}
+.sticky{position:sticky;bottom:8px;background:#fff;padding:6px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid2 small{display:block;color:var(--mut)}.grid2 b{font-size:1.05rem}
+small{color:var(--mut)}.warn{color:var(--warn)}
+.tl{list-style:none;padding:0;margin:0}.tl li{padding:8px 0;border-bottom:1px solid var(--line)}.tl li:last-child{border:0}
+.pill{display:inline-block;font-size:.72rem;padding:2px 8px;border-radius:999px;margin-left:6px;background:#eee;color:#555;vertical-align:middle}
+.pill.open{background:#dff3e8;color:#0b6b3a}.pill.done{background:#e9e7ff;color:#3f37a6}.pill.soon{background:#fff1d6;color:#8a5a00}
+.next{background:var(--acc2);border-color:#cfe6dd}
+.list{max-height:60vh;overflow:auto;border-top:1px solid var(--line)}
+details.prog{border-bottom:1px solid var(--line)}details.prog summary{display:flex;justify-content:space-between;gap:8px;padding:10px 2px;cursor:pointer;list-style:none}
+.num{text-align:right;font-weight:600}.num small{display:block;font-weight:400}
+table.mini{width:100%;border-collapse:collapse;font-size:.85rem;margin:6px 0}table.mini td,table.mini th{border-bottom:1px solid var(--line);padding:5px;text-align:left}
+td.failed{color:var(--bad)}td.done{color:#0b6b3a}
+.add{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 2px;border-bottom:1px solid var(--line)}
+ol.mylist{list-style:none;padding:0;margin:0}ol.mylist li{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+ol.mylist .n{min-width:36px;height:36px;border-radius:50%;background:var(--acc2);color:var(--acc);display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer}
+ol.mylist .t{flex:1}ol.mylist .btns{display:flex;gap:4px}ol.mylist .btns button{padding:6px 10px;min-height:36px}
+.choices{display:grid;gap:8px;margin:10px 0}.choice{display:block;border:1px solid var(--line);border-radius:12px;padding:10px;color:var(--ink)}
+.choice.on{border-color:var(--acc);background:var(--acc2)}.choice input{width:auto;margin-right:6px}.choice small{display:block}
+.seat{text-align:center;padding:10px}.seat .big{font-size:1.3rem;font-weight:700}.seat .code{font-family:ui-monospace,monospace;margin:6px 0;color:var(--acc)}
+details summary{cursor:pointer;color:var(--acc);margin-top:10px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(120px);background:#1d2a26;color:#fff;padding:10px 16px;border-radius:12px;transition:.25s;max-width:92vw;z-index:20}
+.toast.show{transform:translateX(-50%) translateY(0)}.toast.bad{background:var(--bad)}
+
+</style></head>
+<body><div id="app"></div><div id="toast" class="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+// ===== allotment engine (same code as the server function; used by the admin "run in this browser" backup) =====
+// KNRUHS PG Convenor Quota — Mock Allotment Engine
+// Pure, deterministic. Runs unchanged in Node, the browser and Supabase Edge Functions (Deno).
+//
+// Rules implemented (source in brackets):
+//  R1  Candidates processed strictly in merit-rank order (Prospectus 6a, GO 155).
+//  R2  Open (OC) seats are taken before reserved seats by every candidate (GO 155; 2025 data 421/421).
+//  R3  Within a vertical category, women's / PwD seats are taken before general seats
+//      ("special seat first"; 2025 data 294/294 for women; PwD unverified).
+//  R4  Meritorious Reserved Candidate (MRC): a reserved candidate who takes a reserved seat at a higher
+//      preference while an open seat was available to them lower down in the SAME course triggers
+//      compensation — that open seat is earmarked for the next candidate of the same category
+//      (GO 155 sliding rule; 2025 data shows OPEN-*-MRC seats held by reserved candidates).
+//      If the open seat was in a different course, no earmark (GO 155: treated as OC).
+//  R5  BC POOL seats: any BC sub-group, by merit (GO 155).
+//  R6  Minority-college seats: Muslim-minority candidates only (Prospectus 4.3).
+//  R7  Service-quota seats: in-service candidates only (Prospectus 4.5).
+//  R8  Between phases, unfilled seats convert per CONFIG.conversions (GO 155; parts unverified).
+//  R9  Phase 2: a joined candidate who opts to upgrade keeps their phase-1 seat unless they get a
+//      seat they ranked higher (guaranteed). Vacated seats go to the best-ranked eligible applicant
+//      (deferred acceptance). MRC earmarks made in phase 1 carry over; phase 2 makes no new ones.
+
+const DEFAULT_CONFIG = {
+  phSeatsOpenFromStart: true,              // 2026 merit list marks no PwD candidates: PwD seats join the general pool before phase 1
+  horizontalOrder: 'special_first',        // R3: 'special_first' | 'general_first'
+  mrcCompensation: true,                   // R4
+  serviceSeatOrder: 'service_first',       // UNVERIFIED: 'service_first' | 'nonservice_first'
+  serviceMayTakeNonService: true,          // UNVERIFIED
+  conversions: {
+    womenToGeneral: true,                  // GO 155
+    phToGeneral: true,                     // UNVERIFIED
+    scSubgroupChain: ['SC1', 'SC2', 'SC3'],// UNVERIFIED (GO 10/2025 not yet seen): SC1->SC2->SC3->SC1
+    scStSwap: true,                        // GO 155: SC <-> ST
+    bcChain: ['BCA', 'BCB', 'BCC', 'BCD', 'BCE'], // GO 155: A->B->C->D->E->A
+    reservedToOpenAfterCycle: true,        // GO 155: then to OC
+    minorityToOpen: false,                 // UNVERIFIED
+    serviceToNonServiceAfterPhase: 2,      // GO 155: after two phases of service counselling
+  },
+};
+
+const RESERVED = new Set(['BCA', 'BCB', 'BCC', 'BCD', 'BCE', 'SC1', 'SC2', 'SC3', 'ST']);
+
+// ---------- seat matrix ----------
+// seatRows: [{quota:'NON-SERVICE'|'SERVICE', minority:'YES'|'NO', course, college, seat_code, seats}]
+function parseSeatCode(code, minority) {
+  if (minority === 'YES') {
+    return { vc: 'MIN', h: code.startsWith('FEM') ? 'FEM' : 'GEN', ph: code.includes('PH') };
+  }
+  const parts = code.split('_');
+  let vc = parts[0];
+  if (vc === 'OC') vc = 'OPEN';
+  return { vc, h: code.endsWith('_F') ? 'FEM' : 'GEN', ph: code.includes('_PH') };
+}
+
+const keyOf = (b) => `${b.q}|${b.college}|${b.course}|${b.vc}|${b.h}|${b.ph ? 'PH' : ''}`;
+
+function buildSeats(seatRows) {
+  const buckets = new Map();
+  for (const r of seatRows) {
+    const s = parseSeatCode(r.seat_code, r.minority);
+    const b = { q: r.quota === 'SERVICE' ? 'S' : 'NS', college: r.college, course: r.course, ...s };
+    const k = keyOf(b);
+    if (!buckets.has(k)) buckets.set(k, { ...b, key: k, cap: 0, holders: [] });
+    buckets.get(k).cap += Number(r.seats);
+  }
+  return buckets;
+}
+
+function getBucket(buckets, b) {
+  const k = keyOf(b);
+  if (!buckets.has(k)) buckets.set(k, { ...b, key: k, cap: 0, holders: [] });
+  return buckets.get(k);
+}
+const free = (bk) => bk && bk.cap - bk.holders.length > 0;
+
+// ---------- eligibility & ordering ----------
+function horizontalSlots(c, cfg) {
+  // returns [{h, ph}] in the order the candidate should try them
+  const special = [];
+  if (c.ph && c.gender === 'F') special.push({ h: 'FEM', ph: true });
+  if (c.ph) special.push({ h: 'GEN', ph: true });
+  if (c.gender === 'F') special.push({ h: 'FEM', ph: false });
+  const general = [{ h: 'GEN', ph: false }];
+  return cfg.horizontalOrder === 'special_first' ? [...special, ...general] : [...general, ...special];
+}
+
+function quotaOrder(c, cfg) {
+  if (!c.inService) return ['NS'];
+  if (!cfg.serviceMayTakeNonService) return ['S'];
+  return cfg.serviceSeatOrder === 'service_first' ? ['S', 'NS'] : ['NS', 'S'];
+}
+
+// Ordered list of candidate buckets for one option. Each entry: {b, group}
+// group: 'OPEN' | 'MRC' | 'RES' | 'POOL' | 'MIN'
+const _cache = new WeakMap(); // cfg -> Map(profile|college|course -> bucket list)
+const _lists = new WeakMap(); // options array -> per-option bucket lists (computed once per candidate)
+function listsFor(c, opts, cfg, minorityColleges) {
+  let v = _lists.get(opts);
+  if (v && v.cfg === cfg && v.c === c) return v.arr;
+  let m = _cache.get(cfg); if (!m) { m = new Map(); _cache.set(cfg, m); }
+  const pid = profileOf(c);
+  const arr = opts.map((opt) => {
+    const ck = pid + '|' + opt.college + '|' + opt.course;
+    let l = m.get(ck);
+    if (!l) { l = _candidateBuckets(c, opt, cfg, minorityColleges).map((e) => ({ ...e, key: keyOf(e.b) })); l.ok = opt.college + '|' + opt.course; m.set(ck, l); }
+    return l;
+  });
+  _lists.set(opts, { cfg, c, arr });
+  return arr;
+}
+const profileOf = (c) => `${c.category}|${c.gender}|${c.ph ? 1 : 0}|${c.msm ? 1 : 0}|${c.inService ? 1 : 0}`;
+function candidateBuckets(c, opt, cfg, minorityColleges) { return listsFor(c, [opt], cfg, minorityColleges)[0]; }
+function _candidateBuckets(c, opt, cfg, minorityColleges) {
+  const out = [];
+  const hs = horizontalSlots(c, cfg);
+  for (const q of quotaOrder(c, cfg)) {
+    const base = { q, college: opt.college, course: opt.course };
+    if (minorityColleges.has(opt.college)) {
+      if (c.msm) for (const s of hs) out.push({ b: { ...base, vc: 'MIN', ...s }, group: 'MIN' });
+      continue;
+    }
+    for (const s of hs) out.push({ b: { ...base, vc: 'OPEN', ...s }, group: 'OPEN' });
+    if (RESERVED.has(c.category)) {
+      for (const s of hs) out.push({ b: { ...base, vc: 'MRC:' + c.category, ...s }, group: 'MRC' });
+      for (const s of hs) out.push({ b: { ...base, vc: c.category, ...s }, group: 'RES' });
+      if (c.category.startsWith('BC'))
+        for (const s of hs) out.push({ b: { ...base, vc: 'BCPOOL', ...s }, group: 'POOL' });
+    }
+  }
+  return out;
+}
+
+function firstFree(buckets, list, groups) {
+  for (const e of list) {
+    if (groups && !groups.includes(e.group)) continue;
+    const bk = buckets.get(e.key);
+    if (free(bk)) return { bk, group: e.group };
+  }
+  return null;
+}
+
+// ---------- core sequential pass ----------
+// Tries to place candidate c at the best option among opts[0..limit) (limit = index of held option, or opts.length)
+function placeCandidate(c, opts, limit, buckets, cfg, minorityColleges, phase, log) {
+  const L = listsFor(c, opts, cfg, minorityColleges);
+  for (let i = 0; i < limit; i++) {
+    const opt = opts[i];
+    const list = L[i];
+    if (buckets.freeByOpt && !(buckets.freeByOpt.get(list.ok) > 0)) continue; // nothing left at this college+course
+    const hit = firstFree(buckets, list);
+    if (!hit) continue;
+    let mrc = false;
+    if ((hit.group === 'RES' || hit.group === 'POOL') && cfg.mrcCompensation) {
+      // R4: was an open seat available lower down?
+      for (let j = i + 1; j < opts.length; j++) {
+        const lower = L[j];
+        if (buckets.freeByOpt && !(buckets.freeByOpt.get(lower.ok) > 0)) continue;
+        const oh = firstFree(buckets, lower, ['OPEN']);
+        if (oh) {
+          if (opts[j].course === opt.course) {
+            mrc = true;
+            // earmark that open seat for this category
+            oh.bk.cap -= 1;
+            const em = getBucket(buckets, { ...oh.bk, vc: 'MRC:' + c.category });
+            em.cap += 1;
+            log.push({ type: 'mrc_earmark', phase, candidate: c.id, from: oh.bk.key, to: em.key });
+          }
+          break;
+        }
+      }
+    }
+    hit.bk.holders.push(c.id);
+    if (buckets.freeByOpt) buckets.freeByOpt.set(list.ok, buckets.freeByOpt.get(list.ok) - 1);
+    return { optionIndex: i, bucketKey: hit.bk.key, group: hit.group, mrc, phase };
+  }
+  return null;
+}
+
+function seatLabel(bk, a) {
+  const vc = bk.vc.startsWith('MRC:') ? 'OPEN' : bk.vc;
+  const parts = [bk.q, vc, bk.h];
+  if (a.mrc || bk.vc.startsWith('MRC:')) parts.push('MRC');
+  if (bk.vc === 'MIN') parts.push('MSM');
+  if (bk.ph) parts.push('PHO');
+  parts.push('P' + a.phase);
+  return parts.join('-');
+}
+
+const byRank = (a, b) => a.rank - b.rank || String(a.id).localeCompare(String(b.id));
+
+// ---------- conversions between phases ----------
+function convertUnfilled(buckets, cfg, phaseJustFinished, log) {
+  // Plan every move from a snapshot first, so each unfilled seat makes at most one hop per call.
+  const cv = cfg.conversions, sc = cv.scSubgroupChain, bc = cv.bcChain;
+  const plan = [];
+  for (const b of buckets.values()) {
+    const n = b.cap - b.holders.length;
+    if (n <= 0) continue;
+    const hops = b.hops || 0;
+    let to = null, reason = '', nextHops = hops;
+    if (b.q === 'S' && cv.serviceToNonServiceAfterPhase && phaseJustFinished >= cv.serviceToNonServiceAfterPhase) {
+      to = { q: 'NS' }; reason = 'Service seat unfilled -> non-service';
+    } else if (b.ph && cv.phToGeneral) { to = { ph: false }; reason = 'PwD seat unfilled -> non-PwD'; }
+    else if (b.h === 'FEM' && cv.womenToGeneral) { to = { h: 'GEN' }; reason = 'Women seat unfilled -> general'; }
+    else if (b.vc.startsWith('MRC:')) { to = { vc: 'OPEN' }; reason = 'MRC earmark unfilled -> open'; }
+    else if (sc.includes(b.vc)) {
+      if (hops < sc.length - 1) { to = { vc: sc[(sc.indexOf(b.vc) + 1) % sc.length] }; reason = 'SC sub-group chain'; }
+      else if (cv.scStSwap && hops < sc.length) { to = { vc: 'ST' }; reason = 'SC -> ST'; }
+      else if (cv.reservedToOpenAfterCycle) { to = { vc: 'OPEN' }; reason = 'SC -> open'; }
+      nextHops = hops + 1;
+    } else if (b.vc === 'ST') {
+      if (cv.scStSwap && hops < 1) { to = { vc: sc[0] }; reason = 'ST -> SC'; }
+      else if (cv.reservedToOpenAfterCycle) { to = { vc: 'OPEN' }; reason = 'ST -> open'; }
+      nextHops = hops + 1;
+    } else if (bc.includes(b.vc)) {
+      if (hops < bc.length - 1) { to = { vc: bc[(bc.indexOf(b.vc) + 1) % bc.length] }; reason = 'BC sub-group cycle'; }
+      else if (cv.reservedToOpenAfterCycle) { to = { vc: 'OPEN' }; reason = 'BC -> open'; }
+      nextHops = hops + 1;
+    } else if (b.vc === 'BCPOOL' && cv.reservedToOpenAfterCycle) { to = { vc: 'OPEN' }; reason = 'BC pool -> open'; }
+    else if (b.vc === 'MIN' && cv.minorityToOpen) { to = { vc: 'OPEN' }; reason = 'Minority -> open'; }
+    if (to) plan.push({ b, n, to, reason, nextHops });
+  }
+  for (const m of plan) {
+    const { b } = m;
+    const dest = getBucket(buckets, { q: b.q, college: b.college, course: b.course, vc: b.vc, h: b.h, ph: b.ph, ...m.to });
+    b.cap -= m.n; dest.cap += m.n;
+    dest.hops = Math.max(dest.hops || 0, m.nextHops);
+    log.push({ type: 'convert', reason: m.reason, after_phase: phaseJustFinished, seats: m.n, from: b.key, to: dest.key });
+  }
+}
+
+// ---------- phases ----------
+// candidates: [{id, rank, category, gender:'M'|'F', ph, msm, inService, options:[{college,course}], options2?, decision1?}]
+// decision1: 'join_upgrade' | 'join_freeze' | 'not_join' (phase-1 allottees only)
+function runPhase1(seatRows, candidates, cfg = DEFAULT_CONFIG) {
+  const buckets = buildSeats(seatRows);
+  const minorityColleges = new Set(seatRows.filter((r) => r.minority === 'YES').map((r) => r.college));
+  const log = [];
+  if (cfg.phSeatsOpenFromStart) {
+    for (const b of [...buckets.values()]) {
+      if (!b.ph || b.cap <= 0) continue;
+      const to = getBucket(buckets, { q: b.q, college: b.college, course: b.course, vc: b.vc, h: b.h, ph: false });
+      log.push({ type: 'convert', reason: 'No PwD candidates: PwD seat opened before phase 1', after_phase: 0, seats: b.cap, from: b.key, to: to.key });
+      to.cap += b.cap; b.cap = 0;
+    }
+  }
+  const allot = new Map();
+  buckets.freeByOpt = new Map();
+  for (const b of buckets.values()) { const ok = b.college + '|' + b.course; buckets.freeByOpt.set(ok, (buckets.freeByOpt.get(ok) || 0) + b.cap); }
+  for (const c of [...candidates].sort(byRank)) {
+    const a = placeCandidate(c, c.options || [], (c.options || []).length, buckets, cfg, minorityColleges, 1, log);
+    if (a) allot.set(c.id, a);
+  }
+  return { buckets, allot, log, minorityColleges };
+}
+
+function runPhase2(state, candidates, cfg = DEFAULT_CONFIG) {
+  // Phase 2 = deferred acceptance with protected seats:
+  //  - every bucket ranks applicants: its own phase-1 holders first (protection), then merit rank;
+  //  - candidates apply down their list (only options ranked above their held option, then the held seat);
+  //  - result: nobody keeps a seat a better-ranked eligible applicant wanted, and no upgrader is ever worse off.
+  const { buckets, minorityColleges, log } = state;
+  buckets.freeByOpt = null; // phase 2 uses deferred acceptance, not the phase-1 shortcut
+  const prevAllot = state.allot;
+  const allot = new Map();
+  const byId = new Map(candidates.map((c) => [c.id, c]));
+  // 1. release non-joiners; fix freezers
+  for (const c of candidates) {
+    const a = prevAllot.get(c.id);
+    if (!a) continue;
+    if (c.decision1 === 'not_join') {
+      const bk = buckets.get(a.bucketKey);
+      bk.holders.splice(bk.holders.indexOf(c.id), 1);
+      log.push({ type: 'not_joined', candidate: c.id, released: bk.key });
+    }
+  }
+  convertUnfilled(buckets, cfg, 1, log);
+  const frozen = new Map(); // bucketKey -> count
+  for (const c of candidates) {
+    const a = prevAllot.get(c.id);
+    if (a && c.decision1 === 'join_freeze') { allot.set(c.id, a); frozen.set(a.bucketKey, (frozen.get(a.bucketKey) || 0) + 1); }
+  }
+  // 2. participants and their contract lists
+  const opts2 = (c) => c.options2 || c.options || [];
+  // decision1 only matters for phase-1 allottees; everyone without a seat takes part in phase 2
+  const participants = candidates.filter((c) => !prevAllot.get(c.id) || c.decision1 === 'join_upgrade');
+  const limits = new Map();
+  const heldKey = new Map();
+  for (const c of participants) {
+    const a = prevAllot.get(c.id);
+    const opts = opts2(c);
+    let limit = opts.length;
+    if (a) {
+      const hb = buckets.get(a.bucketKey);
+      const i = opts.findIndex((o) => o.college === hb.college && o.course === hb.course);
+      limit = i < 0 ? opts.length : i;
+      heldKey.set(c.id, a.bucketKey);
+    }
+    limits.set(c.id, limit);
+  }
+  // lazy contract iterator: option i, bucket j; after the last option, the held seat
+  function nextContract(c, st) {
+    const opts = opts2(c), limit = limits.get(c.id);
+    while (st.i < limit) {
+      const list = (st.L || (st.L = listsFor(c, opts, cfg, minorityColleges)))[st.i];
+      if (st.j < list.length) { const e = list[st.j++]; const bk = buckets.get(e.key); if (bk && bk.cap > 0) return { key: e.key, i: st.i, group: e.group }; continue; }
+      st.i++; st.j = 0;
+    }
+    if (!st.heldDone && heldKey.has(c.id)) { st.heldDone = true; const a = prevAllot.get(c.id); return { key: a.bucketKey, i: limit, group: a.group, held: true }; }
+    return null;
+  }
+  // 3. deferred acceptance
+  const prio = (bkey, id) => (heldKey.get(id) === bkey ? 0 : 1e9) + byId.get(id).rank; // lower = better
+  const tentative = new Map(); // bucketKey -> [{id, prio, contract}] sorted by prio
+  const state2 = new Map(participants.map((c) => [c.id, { i: 0, j: 0, heldDone: false }]));
+  const queue = [...participants].sort(byRank).map((c) => c.id);
+  let qi = 0;
+  while (qi < queue.length) {
+    const id = queue[qi++];
+    const c = byId.get(id), st = state2.get(id);
+    let k;
+    while ((k = nextContract(c, st))) {
+      const capLeft = buckets.get(k.key).cap - (frozen.get(k.key) || 0);
+      if (capLeft <= 0) continue;
+      const arr = tentative.get(k.key) || [];
+      const ent = { id, prio: prio(k.key, id), contract: k };
+      if (arr.length >= capLeft && ent.prio > arr[arr.length - 1].prio) continue; // rejected outright
+      let lo = 0, hi = arr.length;
+      while (lo < hi) { const mid = (lo + hi) >> 1; if (arr[mid].prio < ent.prio) lo = mid + 1; else hi = mid; }
+      arr.splice(lo, 0, ent);
+      tentative.set(k.key, arr);
+      if (arr.length > capLeft) queue.push(arr.pop().id); // bumped candidate re-enters
+      break;
+    }
+  }
+  // 4. write back
+  for (const bk of buckets.values()) bk.holders = bk.holders.filter((id) => allot.has(id) && allot.get(id).bucketKey === bk.key);
+  for (const [key, arr] of tentative) {
+    const bk = buckets.get(key);
+    for (const t of arr) {
+      bk.holders.push(t.id);
+      const prev = prevAllot.get(t.id);
+      if (t.contract.held) allot.set(t.id, prev);
+      else {
+        allot.set(t.id, { optionIndex: t.contract.i, bucketKey: key, group: t.contract.group, mrc: false, phase: 2 });
+        if (prev) log.push({ type: 'upgrade', candidate: t.id, from: prev.bucketKey, to: key });
+      }
+    }
+  }
+  convertUnfilled(buckets, cfg, 2, log);
+  return { buckets, allot, log, minorityColleges, sweeps: 1 };
+}
+
+function resultsTable(state, candidates) {
+  const byId = new Map(candidates.map((c) => [c.id, c]));
+  const rows = [];
+  for (const [id, a] of state.allot) {
+    const c = byId.get(id), bk = state.buckets.get(a.bucketKey);
+    rows.push({ id, rank: c.rank, category: c.category, gender: c.gender, college: bk.college, course: bk.course,
+      seat: seatLabel(bk, a), option_no: a.optionIndex + 1, phase: a.phase });
+  }
+  return rows.sort((x, y) => x.rank - y.rank);
+}
+
+// ---------- save / restore between phases (phase 1 and phase 2 run days apart) ----------
+function exportState(state) { return JSON.stringify(exportStateObject(state)); }
+function exportStateObject(state) {
+  return ({
+    v: 1,
+    buckets: [...state.buckets.values()].map(({ key, q, college, course, vc, h, ph, cap, holders, hops }) => ({ key, q, college, course, vc, h, ph, cap, holders, hops: hops || 0 })),
+    allot: [...state.allot.entries()],
+    log: state.log,
+    minorityColleges: [...state.minorityColleges],
+  });
+}
+function importState(json) {
+  const s = typeof json === 'string' ? JSON.parse(json) : json;
+  const buckets = new Map(s.buckets.map((b) => [b.key, { ...b, holders: [...b.holders] }]));
+  return { buckets, allot: new Map(s.allot), log: s.log, minorityColleges: new Set(s.minorityColleges) };
+}
+
+// ---------- request handler (shared by the Supabase function and the local test) ----------
+function mergeConfig(base, over) {
+  const out = { ...base, ...(over || {}) };
+  out.conversions = { ...base.conversions, ...((over || {}).conversions || {}) };
+  return out;
+}
+
+async function handleRun({ phase, trigger, db }) {
+  const { data: runId, error: e0 } = await db.rpc('engine_start', { p_phase: phase, p_trigger: trigger });
+  if (e0) return { status: 400, body: { error: e0.message } };
+  if (!runId) return { status: 200, body: { skipped: true, reason: 'already done or running' } };
+  try {
+    const { data: inp, error: e1 } = await db.rpc('engine_input', { p_phase: phase });
+    if (e1) throw new Error(e1.message);
+    const cfg = mergeConfig(DEFAULT_CONFIG, inp.settings.engine_config);
+    const programs = new Map(inp.programs.map(([id, college, course]) => [id, { college, course }]));
+    const toOpts = (ids) => (ids || []).map((id) => programs.get(id)).filter(Boolean);
+    const cands = inp.candidates.map((c) => ({
+      id: c.id, user_id: c.user_id, rank: c.rank, category: c.category, gender: c.gender,
+      ph: !!c.ph, msm: !!c.msm, inService: !!c.inService,
+      options: toOpts(c.p1),
+      options2: c.p2 ? toOpts(c.p2) : undefined,
+      // no answer from a phase-1 allottee: keeps the seat; upgrades only if they filled phase-2 options
+      decision1: c.decision || (c.p2 && c.p2.length ? 'join_upgrade' : 'join_freeze'),
+    }));
+    if (!inp.seats.length) throw new Error('Seat matrix is empty');
+    let state;
+    if (phase === 1) state = runPhase1(inp.seats, cands, cfg);
+    else {
+      if (!inp.phase1_state) throw new Error('No completed phase-1 run');
+      state = runPhase2(importState(inp.phase1_state), cands, cfg);
+    }
+    const byId = new Map(cands.map((c) => [c.id, c]));
+    const rows = resultsTable({ ...state, allot: new Map([...state.allot].filter(([id]) => byId.has(id))) }, cands)
+      .map((r) => ({ ...r, user_id: byId.get(r.id).user_id }));
+    const stats = {
+      candidates: cands.length,
+      with_options: cands.filter((c) => (phase === 1 ? c.options : (c.options2 || c.options)).length).length,
+      seats_total: inp.seats.reduce((s, r) => s + Number(r.seats), 0),
+      allotted: rows.length,
+      mrc: rows.filter((r) => r.seat.includes('MRC')).length,
+      upgrades: state.log.filter((l) => l.type === 'upgrade').length,
+      conversions: state.log.filter((l) => l.type === 'convert').length,
+      config: cfg,
+    };
+    const { data: n, error: e2 } = await db.rpc('engine_save', {
+      p_run_id: runId, p_phase: phase, p_rows: rows, p_state: exportStateObject(state), p_stats: stats });
+    if (e2) throw new Error(e2.message);
+    return { status: 200, body: { ok: true, run_id: runId, allotted: n, stats } };
+  } catch (err) {
+    await db.rpc('engine_fail', { p_run_id: runId, p_message: String(err && err.stack || err) });
+    return { status: 500, body: { error: String(err && err.message || err), run_id: runId } };
+  }
+}
+
+</script>
+<script>
+// ===== Telangana NEET PG Mock Counselling — website =====
+const SUPABASE_URL = 'https://uvsdejpaccakhhluldhu.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_JtmJFOdY0Y0mq9dAX4wK4Q_43VAY6R4';
+const TZ = 'Asia/Kolkata';
+
+const sb = window.__TEST_TOKEN
+  ? supabase.createClient(window.__TEST_URL || SUPABASE_URL, SUPABASE_KEY, { accessToken: async () => window.__TEST_TOKEN })
+  : supabase.createClient(window.__TEST_URL || SUPABASE_URL, SUPABASE_KEY);
+const FN_URL = (window.__TEST_URL || SUPABASE_URL) + '/functions/v1/run-allotment';
+
+// ---------- helpers ----------
+const $ = (s, r = document) => r.querySelector(s);
+const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = (t) => (t ? new Date(t).toLocaleString('en-IN', { timeZone: TZ, day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : '—');
+const toLocalInput = (t) => { if (!t) return ''; const d = new Date(new Date(t).getTime() + 330 * 60000); return d.toISOString().slice(0, 16); };
+const fromLocalInput = (v) => (v ? new Date(v + ':00+05:30').toISOString() : null);
+const now = () => Date.now();
+const within = (a, b) => a && b && now() >= +new Date(a) && now() < +new Date(b);
+const after = (a) => a && now() >= +new Date(a);
+function toast(msg, bad = false) {
+  const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : '');
+  clearTimeout(toast._t); toast._t = setTimeout(() => (t.className = 'toast'), 4200);
+}
+const errMsg = (e) => (e && (e.message || e.error_description || e.error)) || String(e);
+async function pageAll(build) {
+  const out = []; const size = 1000;
+  for (let from = 0; ; from += size) {
+    const { data, error } = await build().range(from, from + size - 1);
+    if (error) throw error; out.push(...data); if (data.length < size) return out;
+  }
+}
+function download(name, rows) {
+  if (!rows.length) return toast('Nothing to download yet', true);
+  const cols = Object.keys(rows[0]);
+  const csv = [cols.join(','), ...rows.map((r) => cols.map((c) => { const v = r[c] ?? ''; return /[",\n]/.test(v) ? '"' + String(v).replace(/"/g, '""') + '"' : v; }).join(','))].join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = name; a.click();
+}
+const CATS = ['OC', 'BCA', 'BCB', 'BCC', 'BCD', 'BCE', 'SC1', 'SC2', 'SC3', 'ST'];
+function explainSeat(label) {
+  const p = (label || '').split('-');
+  const q = p[0] === 'S' ? 'In-service quota' : 'Non-service quota';
+  const cat = p[1] === 'OPEN' ? 'Open (merit)' : p[1] === 'MIN' ? 'Minority (Muslim)' : p[1] === 'BCPOOL' ? 'BC pool' : p[1];
+  const parts = [q, cat, p.includes('FEM') ? "Women's seat" : 'General seat'];
+  if (p.includes('MRC')) parts.push('Meritorious reserved candidate (MRC)');
+  if (p.includes('PHO')) parts.push('PwD seat');
+  const ph = p.find((x) => /^P\d$/.test(x)); if (ph) parts.push('Allotted in phase ' + ph[1]);
+  return parts.join(' · ');
+}
+
+// ---------- state ----------
+const S = { user: null, isAdmin: false, settings: null, me: null, merit: null, programs: [], progById: new Map(),
+  seatsByProg: new Map(), seatRows: [], prefs: { 1: null, 2: null }, decision: null, allot: { 1: null, 2: null },
+  tab: 'home', draft: { 1: null, 2: null }, dirty: { 1: false, 2: false }, filter: { course: '', q: '' }, adminData: null };
+
+async function currentUser() {
+  if (window.__TEST_TOKEN) { const p = JSON.parse(atob(window.__TEST_TOKEN.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))); return { id: p.sub, email: p.email }; }
+  const { data } = await sb.auth.getSession(); return data.session ? data.session.user : null;
+}
+async function accessToken() {
+  if (window.__TEST_TOKEN) return window.__TEST_TOKEN;
+  const { data } = await sb.auth.getSession(); return data.session && data.session.access_token;
+}
+
+async function loadAll() {
+  const { data: st } = await sb.from('settings').select('*').eq('id', 1).maybeSingle();
+  S.settings = st;
+  S.user = await currentUser();
+  if (!S.user) return;
+  const [adm, me, progs, seats] = await Promise.all([
+    sb.from('admins').select('user_id').eq('user_id', S.user.id).maybeSingle(),
+    sb.from('candidates').select('*').eq('user_id', S.user.id).maybeSingle(),
+    pageAll(() => sb.from('programs').select('id,college,course,minority').order('course').order('college')),
+    pageAll(() => sb.from('seat_matrix').select('quota,minority,course,college,seat_code,seats').order('seat_group_id')),
+  ]);
+  S.isAdmin = !!adm.data; S.me = me.data; S.programs = progs; S.progById = new Map(progs.map((p) => [p.id, p]));
+  S.seatRows = seats; S.seatsByProg = new Map();
+  const key = (c, k) => c + '|' + k; const idx = new Map(progs.map((p) => [key(p.college, p.course), p.id]));
+  for (const r of seats) {
+    const id = idx.get(key(r.college, r.course)); if (!id) continue;
+    const o = S.seatsByProg.get(id) || { ns: 0, s: 0, rows: [] }; if (r.quota === 'SERVICE') o.s += r.seats; else o.ns += r.seats; o.rows.push(r); S.seatsByProg.set(id, o);
+  }
+  if (S.me) {
+    const [mr, pr, dec, al] = await Promise.all([
+      sb.from('merit_list').select('*').eq('hall_ticket', S.me.hall_ticket).maybeSingle(),
+      sb.from('preferences').select('*').eq('user_id', S.user.id),
+      sb.from('decisions').select('*').eq('user_id', S.user.id).maybeSingle(),
+      sb.from('allotments').select('*').eq('hall_ticket', S.me.hall_ticket),
+    ]);
+    S.merit = mr.data; S.prefs = { 1: null, 2: null }; for (const p of pr.data || []) S.prefs[p.phase] = p;
+    S.decision = dec.data ? dec.data.decision : null;
+    S.allot = { 1: null, 2: null }; for (const a of al.data || []) S.allot[a.phase] = a;
+    for (const ph of [1, 2]) if (!S.dirty[ph]) S.draft[ph] = S.prefs[ph] ? [...S.prefs[ph].program_ids] : [];
+  }
+}
+
+// ---------- timeline ----------
+function stages() {
+  const s = S.settings || {};
+  return [
+    { name: 'Registration (hall ticket)', a: s.reg_open, b: s.reg_close },
+    { name: 'Phase 1 web options', a: s.p1_open, b: s.p1_close },
+    { name: 'Phase 1 results', a: s.p1_publish_at },
+    { name: 'Phase 2: join decision + options', a: s.p2_open, b: s.p2_close },
+    { name: 'Phase 2 results', a: s.p2_publish_at },
+  ];
+}
+function timelineHTML() {
+  return `<div class="card"><h3>Schedule (IST)</h3><ol class="tl">${stages().map((x) => {
+    const st = !x.a ? 'tbd' : x.b ? (within(x.a, x.b) ? 'open' : after(x.b) ? 'done' : 'soon') : (after(x.a) ? 'done' : 'soon');
+    const label = { tbd: 'Not set', open: 'Open now', done: x.b ? 'Closed' : 'Published', soon: 'Upcoming' }[st];
+    return `<li class="${st}"><b>${esc(x.name)}</b><span class="pill ${st}">${label}</span><br><small>${x.a ? fmt(x.a) : 'Date to be announced'}${x.b ? ' → ' + fmt(x.b) : ''}</small></li>`;
+  }).join('')}</ol></div>`;
+}
+
+// ---------- views ----------
+function render() {
+  const app = $('#app');
+  const head = `<header><div><h1>Telangana NEET PG Mock Counselling</h1><div class="sub">Convenor (Competent Authority) quota · KNRUHS 2026-27 seat matrix</div></div>
+    ${S.user ? `<div class="who"><small>${esc(S.user.email || '')}</small><button class="link" id="signout">Sign out</button></div>` : ''}</header>
+    <div class="notice">Unofficial practice tool. Not connected to KNRUHS. Results here are a simulation based only on students who take part in this mock.</div>`;
+  if (!S.user) { app.innerHTML = head + signInHTML() + timelineHTML(); bindSignIn(); return; }
+  if (!S.me && !S.isAdmin) { app.innerHTML = head + claimHTML() + timelineHTML(); bindCommon(); bindClaim(); return; }
+  const tabs = [['home', 'Home'], ['seats', 'Seats'], ['options', 'Web options'], ['results', 'Results']];
+  if (S.isAdmin) tabs.push(['admin', 'Admin']);
+  if (!S.me && S.tab !== 'admin' && S.tab !== 'seats') S.tab = S.isAdmin ? 'admin' : 'home';
+  const body = { home: homeHTML, seats: seatsHTML, options: optionsHTML, results: resultsHTML, admin: adminHTML }[S.tab]();
+  app.innerHTML = head + `<nav>${tabs.map(([k, v]) => `<button data-tab="${k}" class="${S.tab === k ? 'on' : ''}">${v}</button>`).join('')}</nav>` + body;
+  bindCommon();
+  ({ home: () => {}, seats: bindSeats, options: bindOptions, results: () => {}, admin: bindAdmin })[S.tab]();
+}
+
+function signInHTML() {
+  return `<div class="card"><h2>Sign in</h2><p>Use your Google account. One account can register one NEET PG hall ticket.</p>
+    <button class="primary big" id="google">Continue with Google</button>
+    <details><summary>Or get a sign-in link by email</summary>
+      <div class="row"><input id="email" type="email" placeholder="you@example.com"><button id="emailbtn">Send link</button></div>
+      <small>Email links are limited to a few per hour, so prefer Google.</small></details></div>`;
+}
+function bindSignIn() {
+  const redirectTo = location.origin + location.pathname;
+  $('#google').onclick = async () => { const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo } }); if (error) toast(errMsg(error), true); };
+  $('#emailbtn').onclick = async () => {
+    const email = $('#email').value.trim(); if (!email) return;
+    const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: redirectTo } });
+    error ? toast(errMsg(error), true) : toast('Check your email for the sign-in link');
+  };
+}
+function bindCommon() {
+  const so = $('#signout'); if (so) so.onclick = async () => { await sb.auth.signOut(); location.reload(); };
+  document.querySelectorAll('nav button').forEach((b) => (b.onclick = () => { S.tab = b.dataset.tab; render(); window.scrollTo(0, 0); }));
+}
+
+function claimHTML() {
+  const s = S.settings || {};
+  const open = within(s.reg_open, s.reg_close);
+  return `<div class="card"><h2>Register your hall ticket</h2>
+    ${open ? '' : `<p class="warn">Registration is ${s.reg_open && !after(s.reg_open) ? 'not open yet' : 'closed'}.</p>`}
+    <p>Enter your NEET PG roll number exactly as in the KNRUHS final merit list. Your category, gender, minority and in-service status must match the merit list.</p>
+    <label>NEET PG roll number (hall ticket)<input id="ht" inputmode="numeric" maxlength="11" placeholder="11 digits"></label>
+    <label>Category<select id="cat">${CATS.map((c) => `<option>${c}</option>`).join('')}</select></label>
+    <label>Gender<select id="gen"><option value="F">Female</option><option value="M">Male</option></select></label>
+    <label class="chk"><input type="checkbox" id="msm"> Muslim minority (MSM)</label>
+    <label class="chk"><input type="checkbox" id="svc"> In-service candidate</label>
+    <button class="primary" id="claim" ${open ? '' : 'disabled'}>Register</button>
+    <p><small>Someone already registered your hall ticket? Contact the admin.</small></p></div>`;
+}
+function bindClaim() {
+  const b = $('#claim'); if (!b) return;
+  b.onclick = async () => {
+    const ht = $('#ht').value.trim(); if (!/^\d{11}$/.test(ht)) return toast('Roll number must be 11 digits', true);
+    b.disabled = true;
+    const { error } = await sb.rpc('claim_hall_ticket', { p_hall_ticket: ht, p_category: $('#cat').value, p_gender: $('#gen').value,
+      p_ph: false, p_msm: $('#msm').checked, p_in_service: $('#svc').checked });
+    b.disabled = false;
+    if (error) return toast(errMsg(error), true);
+    toast('Registered'); await loadAll(); S.tab = 'home'; render();
+  };
+}
+
+function profileHTML() {
+  const m = S.merit || {}, c = S.me;
+  return `<div class="card"><h2>${esc(m.name || 'Your profile')}</h2><div class="grid2">
+    <div><small>Roll number</small><b>${esc(c.hall_ticket)}</b></div><div><small>State merit position</small><b>${esc(m.state_rank)}</b></div>
+    <div><small>NEET PG rank</small><b>${esc(m.neet_rank ?? '—')}</b></div><div><small>Score</small><b>${esc(m.neet_score ?? '—')}</b></div>
+    <div><small>Category</small><b>${esc(c.category)}</b></div><div><small>Gender</small><b>${c.gender === 'F' ? 'Female' : 'Male'}</b></div>
+    <div><small>Minority</small><b>${c.msm ? 'MSM' : 'No'}</b></div><div><small>In-service</small><b>${c.in_service ? 'Yes' : 'No'}</b></div></div></div>`;
+}
+function nextStep() {
+  const s = S.settings || {};
+  if (within(s.p1_open, s.p1_close)) return S.prefs[1] && S.prefs[1].locked_at ? 'Your phase-1 options are locked. Results: ' + fmt(s.p1_publish_at) : 'Phase-1 web options are open until ' + fmt(s.p1_close) + '. Go to Web options.';
+  if (within(s.p2_open, s.p2_close)) return 'Phase 2 is open until ' + fmt(s.p2_close) + '. Check Results, then choose in Web options.';
+  if (after(s.p2_publish_at)) return 'Phase-2 results are out. See Results.';
+  if (after(s.p1_publish_at)) return 'Phase-1 results are out. See Results.';
+  if (s.p1_open && !after(s.p1_open)) return 'Web options open on ' + fmt(s.p1_open) + '. Browse the Seats tab meanwhile.';
+  return 'Watch this page for the schedule.';
+}
+function homeHTML() {
+  if (!S.me) return `<div class="card"><p>You are signed in as admin. Use the Admin tab.</p></div>` + timelineHTML();
+  return profileHTML() + `<div class="card next"><b>Next step</b><p>${esc(nextStep())}</p></div>` + timelineHTML();
+}
+
+// ---------- seats ----------
+const courses = () => [...new Set(S.programs.map((p) => p.course))].sort();
+function seatsHTML() {
+  const f = S.filter;
+  const list = S.programs.filter((p) => (!f.course || p.course === f.course) && (!f.q || (p.college + ' ' + p.course).toLowerCase().includes(f.q.toLowerCase())));
+  const total = S.seatRows.reduce((a, r) => a + r.seats, 0);
+  return `<div class="card"><h2>Seat matrix</h2><p><small>${total} seats · ${S.programs.length} college + course options. Tap a row for the category break-up.</small></p>
+    ${filterHTML()}<div class="list">${list.slice(0, 300).map((p) => { const s = S.seatsByProg.get(p.id) || { ns: 0, s: 0 };
+      return `<details class="prog"><summary><span>${esc(p.course)}<br><small>${esc(p.college)}</small></span><span class="num">${s.ns + s.s}<small>NS ${s.ns} · S ${s.s}</small></span></summary>${breakupHTML(p.id)}</details>`; }).join('')}
+    ${list.length > 300 ? `<p><small>Showing 300 of ${list.length}. Narrow the search.</small></p>` : ''}</div></div>`;
+}
+function breakupHTML(id) {
+  const s = S.seatsByProg.get(id); if (!s) return '';
+  return `<table class="mini"><tr><th>Quota</th><th>Seat type</th><th>Seats</th></tr>${s.rows.filter((r) => r.seats > 0).map((r) => `<tr><td>${r.quota === 'SERVICE' ? 'Service' : 'Non-service'}</td><td>${esc(r.seat_code)}</td><td>${r.seats}</td></tr>`).join('')}</table>
+    <small>_G general · _F women · _PH PwD (PwD seats are opened to all in this mock)</small>`;
+}
+function filterHTML() {
+  return `<div class="row"><select id="fcourse"><option value="">All courses</option>${courses().map((c) => `<option ${S.filter.course === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select>
+    <input id="fq" placeholder="Search college" value="${esc(S.filter.q)}"></div>`;
+}
+function bindFilter() {
+  $('#fcourse').onchange = (e) => { S.filter.course = e.target.value; render(); };
+  const q = $('#fq'); q.oninput = (e) => { S.filter.q = e.target.value; clearTimeout(bindFilter._t); bindFilter._t = setTimeout(() => { render(); const n = $('#fq'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }, 350); };
+}
+function bindSeats() { bindFilter(); }
+
+// ---------- web options ----------
+function activePhase() {
+  const s = S.settings || {};
+  if (within(s.p2_open, s.p2_close) || after(s.p2_open)) return 2;
+  return 1;
+}
+function optionsHTML() {
+  if (!S.me) return `<div class="card"><p>Admins without a hall ticket have no options.</p></div>`;
+  const ph = activePhase(), s = S.settings || {};
+  if (ph === 2) return phase2HTML();
+  const open = within(s.p1_open, s.p1_close);
+  const locked = !!(S.prefs[1] && S.prefs[1].locked_at);
+  const status = !s.p1_open ? 'Dates not announced yet.' : !after(s.p1_open) ? 'Opens ' + fmt(s.p1_open) : open ? 'Open until ' + fmt(s.p1_close) : 'Closed. Your saved list is what counts.';
+  return `<div class="card"><h2>Phase 1 web options</h2><p>${esc(status)}${locked ? ' <span class="pill done">Locked</span>' : ''}</p></div>` + editorHTML(1, open && !locked);
+}
+function phase2HTML() {
+  const s = S.settings, open = within(s.p2_open, s.p2_close);
+  const seat = S.allot[1];
+  let html = `<div class="card"><h2>Phase 2</h2><p>${open ? 'Open until ' + fmt(s.p2_close) : after(s.p2_close) ? 'Closed.' : 'Opens ' + fmt(s.p2_open)}</p>`;
+  if (seat) {
+    const d = S.decision || '';
+    html += `<p>Your phase-1 seat: <b>${esc(seat.course)}</b>, ${esc(seat.college)} <small>(${esc(seat.seat_label)})</small></p>
+      <div class="choices">${[['join_upgrade', 'Join and try to upgrade', 'Keep this seat; get a better one only if available in phase 2.'],
+        ['join_freeze', 'Join and keep this seat', 'No phase-2 options. This is final.'],
+        ['not_join', 'Do not join', 'Give up this seat and leave the counselling.']].map(([v, t, h]) =>
+        `<label class="choice ${d === v ? 'on' : ''}"><input type="radio" name="dec" value="${v}" ${d === v ? 'checked' : ''} ${open ? '' : 'disabled'}><b>${t}</b><small>${h}</small></label>`).join('')}</div>
+      ${open ? '<button class="primary" id="savedec">Save my choice</button>' : ''}
+      <p><small>If you don't choose, you keep your seat and only upgrade if you fill phase-2 options.</small></p>`;
+  } else html += `<p>You did not get a seat in phase 1. Fill your phase-2 options below.</p>`;
+  html += '</div>';
+  const canEdit = open && !(S.prefs[2] && S.prefs[2].locked_at) && (!seat || S.decision === 'join_upgrade' || !S.decision);
+  if (!seat || S.decision !== 'join_freeze' && S.decision !== 'not_join') {
+    html += (seat ? `<div class="card"><small>Only options you place <b>above</b> your current seat can change your allotment. If nothing better is free, you keep your phase-1 seat.</small></div>` : '') + editorHTML(2, canEdit);
+  }
+  return html;
+}
+function editorHTML(ph, canEdit) {
+  const d = S.draft[ph] || [];
+  const inList = new Set(d);
+  const f = S.filter;
+  const avail = S.programs.filter((p) => !inList.has(p.id) && (!p.minority || (S.me && S.me.msm)) &&
+    (!f.course || p.course === f.course) && (!f.q || (p.college + ' ' + p.course).toLowerCase().includes(f.q.toLowerCase())));
+  const mine = `<div class="card"><h3>My list <small>(${d.length} options)</small> ${S.dirty[ph] ? '<span class="pill soon">Unsaved changes</span>' : ''}</h3>
+    ${d.length ? `<ol class="mylist">${d.map((id, i) => { const p = S.progById.get(id) || {}; return `<li><span class="n" ${canEdit ? `data-move="${i}"` : ''}>${i + 1}</span><span class="t">${esc(p.course)}<br><small>${esc(p.college)}</small></span>
+      ${canEdit ? `<span class="btns"><button data-up="${i}" aria-label="Up">↑</button><button data-down="${i}" aria-label="Down">↓</button><button data-del="${i}" aria-label="Remove">✕</button></span>` : ''}</li>`; }).join('')}</ol>` : '<p><small>No options yet.</small></p>'}
+    ${canEdit ? `<div class="row sticky"><button class="primary" id="save" ${S.dirty[ph] ? '' : 'disabled'}>Save</button>
+      ${ph === 2 && S.prefs[1] && S.prefs[1].program_ids.length && !d.length ? '<button id="copy1">Copy my phase-1 list</button>' : ''}
+      <button class="danger" id="lock" ${d.length && !S.dirty[ph] ? '' : 'disabled'}>Lock (final)</button></div>
+      <small>Tap a number to move that option to another position. Saved options count at closing time even if not locked.</small>` : ''}</div>`;
+  if (!canEdit) return mine;
+  return mine + `<div class="card"><h3>Add options</h3>${filterHTML()}
+    ${f.course ? `<button id="addall">Add all ${avail.length} shown (in this order)</button>` : ''}
+    <div class="list">${avail.slice(0, 150).map((p) => { const s = S.seatsByProg.get(p.id) || { ns: 0, s: 0 }; return `<div class="add"><span>${esc(p.course)}<br><small>${esc(p.college)} · ${s.ns + s.s} seats</small></span><button data-add="${p.id}">Add</button></div>`; }).join('')}
+    ${avail.length > 150 ? `<p><small>Showing 150 of ${avail.length}. Pick a course or search a college.</small></p>` : ''}</div></div>`;
+}
+function bindOptions() {
+  if ($('#fcourse')) bindFilter();
+  const ph = activePhase();
+  const d = () => S.draft[ph];
+  const changed = () => { S.dirty[ph] = true; render(); };
+  document.querySelectorAll('[data-add]').forEach((b) => (b.onclick = () => { d().push(+b.dataset.add); changed(); }));
+  document.querySelectorAll('[data-del]').forEach((b) => (b.onclick = () => { d().splice(+b.dataset.del, 1); changed(); }));
+  document.querySelectorAll('[data-up]').forEach((b) => (b.onclick = () => { const i = +b.dataset.up; if (i > 0) { const a = d(); [a[i - 1], a[i]] = [a[i], a[i - 1]]; changed(); } }));
+  document.querySelectorAll('[data-down]').forEach((b) => (b.onclick = () => { const i = +b.dataset.down, a = d(); if (i < a.length - 1) { [a[i + 1], a[i]] = [a[i], a[i + 1]]; changed(); } }));
+  document.querySelectorAll('[data-move]').forEach((b) => (b.onclick = () => {
+    const i = +b.dataset.move, a = d(); const to = parseInt(prompt(`Move option ${i + 1} to position (1–${a.length}):`, i + 1), 10);
+    if (!to || to < 1 || to > a.length || to === i + 1) return; const [x] = a.splice(i, 1); a.splice(to - 1, 0, x); changed();
+  }));
+  const aa = $('#addall'); if (aa) aa.onclick = () => {
+    const inList = new Set(d()); S.programs.filter((p) => p.course === S.filter.course && !inList.has(p.id) && (!p.minority || S.me.msm) &&
+      (!S.filter.q || (p.college + ' ' + p.course).toLowerCase().includes(S.filter.q.toLowerCase()))).forEach((p) => d().push(p.id)); changed(); };
+  const c1 = $('#copy1'); if (c1) c1.onclick = () => { S.draft[2] = [...S.prefs[1].program_ids]; changed(); };
+  const sv = $('#save'); if (sv) sv.onclick = async () => {
+    sv.disabled = true; const { error } = await sb.rpc('save_options', { p_phase: ph, p_program_ids: d() });
+    if (error) { sv.disabled = false; return toast(errMsg(error), true); }
+    S.dirty[ph] = false; toast('Saved ' + d().length + ' options'); await loadAll(); render();
+  };
+  const lk = $('#lock'); if (lk) lk.onclick = async () => {
+    if (!confirm('Lock your options? You cannot change them after locking.')) return;
+    const { error } = await sb.rpc('lock_options', { p_phase: ph }); if (error) return toast(errMsg(error), true);
+    toast('Locked'); await loadAll(); render();
+  };
+  const sd = $('#savedec'); if (sd) sd.onclick = async () => {
+    const v = (document.querySelector('input[name=dec]:checked') || {}).value; if (!v) return toast('Choose one option', true);
+    if (v === 'not_join' && !confirm('Give up your phase-1 seat?')) return;
+    const { error } = await sb.rpc('set_decision', { p_decision: v }); if (error) return toast(errMsg(error), true);
+    toast('Choice saved'); await loadAll(); render();
+  };
+}
+
+// ---------- results ----------
+function resultsHTML() {
+  if (!S.me) return `<div class="card"><p>See the Admin tab for all results.</p></div>`;
+  const s = S.settings || {};
+  return [1, 2].map((ph) => {
+    const pub = ph === 1 ? s.p1_publish_at : s.p2_publish_at; const a = S.allot[ph];
+    let inner;
+    if (!after(pub)) inner = `<p>Results will be published ${pub ? 'on ' + fmt(pub) : 'after the allotment'}.</p>`;
+    else if (a) inner = `<div class="seat"><div class="big">${esc(a.course)}</div><div>${esc(a.college)}</div><div class="code">${esc(a.seat_label)}</div><small>${esc(explainSeat(a.seat_label))} · your option no. ${esc(a.option_no)}</small></div>`;
+    else inner = `<p>No seat allotted in this phase.</p>`;
+    return `<div class="card"><h2>Phase ${ph} result</h2>${inner}</div>`;
+  }).join('') + `<div class="card"><small>This is a mock based only on students registered here. Real KNRUHS results depend on every candidate's choices.</small></div>`;
+}
+
+// ---------- admin ----------
+async function loadAdmin() {
+  const [st, runs] = await Promise.all([sb.rpc('admin_stats'), sb.from('engine_runs').select('id,phase,trigger,status,started_at,finished_at,message,stats').order('id', { ascending: false }).limit(10)]);
+  S.adminData = { stats: st.data || {}, runs: runs.data || [], err: st.error && errMsg(st.error) };
+}
+function adminHTML() {
+  if (!S.adminData) { loadAdmin().then(render); return '<div class="card">Loading…</div>'; }
+  const st = S.adminData.stats, s = S.settings || {};
+  const field = (k, label) => `<label>${label}<input type="datetime-local" data-set="${k}" value="${toLocalInput(s[k])}"></label>`;
+  return `<div class="card"><h2>Overview</h2>${S.adminData.err ? `<p class="warn">${esc(S.adminData.err)}</p>` : ''}<div class="grid2">
+    <div><small>Merit list</small><b>${st.merit_list ?? '—'}</b></div><div><small>Registered</small><b>${st.registered ?? '—'} / ${s.max_candidates}</b></div>
+    <div><small>Phase 1 saved / locked</small><b>${st.p1_saved ?? 0} / ${st.p1_locked ?? 0}</b></div><div><small>Phase 2 saved / locked</small><b>${st.p2_saved ?? 0} / ${st.p2_locked ?? 0}</b></div>
+    <div><small>Seats / options</small><b>${st.seats ?? 0} / ${st.programs ?? 0}</b></div><div><small>Allotted P1 / P2</small><b>${st.allotted_p1 ?? 0} / ${st.allotted_p2 ?? 0}</b></div>
+    <div><small>Phase-2 choices</small><b>${esc(Object.entries(st.decisions || {}).map(([k, v]) => k.replace('join_', '') + ' ' + v).join(', ') || '—')}</b></div><div><small>Server time</small><b>${fmt(st.server_time)}</b></div></div>
+    <button id="refresh">Refresh</button></div>
+  <div class="card"><h2>Schedule (enter IST)</h2>
+    ${field('reg_open', 'Registration opens')}${field('reg_close', 'Registration closes')}
+    ${field('p1_open', 'Phase 1 options open')}${field('p1_close', 'Phase 1 options close')}${field('p1_run_at', 'Phase 1 allotment runs at')}${field('p1_publish_at', 'Phase 1 results published at')}
+    ${field('p2_open', 'Phase 2 opens')}${field('p2_close', 'Phase 2 closes')}${field('p2_run_at', 'Phase 2 allotment runs at')}${field('p2_publish_at', 'Phase 2 results published at')}
+    <label>Maximum registrations<input type="number" id="maxc" value="${s.max_candidates}"></label>
+    <details><summary>Engine rule settings (advanced)</summary><textarea id="ecfg" rows="6">${esc(JSON.stringify(s.engine_config || {}, null, 1))}</textarea>
+    <small>Empty {} = defaults. Example: {"serviceSeatOrder":"nonservice_first","conversions":{"phToGeneral":false}}</small></details>
+    <button class="primary" id="savesettings">Save schedule</button>
+    <p><small>The allotment runs automatically within a minute of its run time. Run time must be after options close.</small></p></div>
+  <div class="card"><h2>Allotment</h2>
+    <div class="row wrap"><button data-run="1" data-where="server">Run phase 1 now (server)</button><button data-run="2" data-where="server">Run phase 2 now (server)</button></div>
+    <div class="row wrap"><button data-run="1" data-where="browser">Run phase 1 in this browser</button><button data-run="2" data-where="browser">Run phase 2 in this browser</button></div>
+    <small>Use "in this browser" only if the server run fails. A manual run replaces that phase's results.</small>
+    <div class="row wrap"><button data-pub="1">Publish phase 1 now</button><button data-pub="2">Publish phase 2 now</button></div>
+    <h3>Recent runs</h3><table class="mini"><tr><th>#</th><th>Phase</th><th>How</th><th>Status</th><th>When</th><th>Message</th></tr>
+    ${S.adminData.runs.map((r) => `<tr><td>${r.id}</td><td>${r.phase}</td><td>${r.trigger}</td><td class="${r.status}">${r.status}</td><td>${fmt(r.started_at)}</td><td>${esc((r.message || '').slice(0, 120))}</td></tr>`).join('') || '<tr><td colspan="6">None yet</td></tr>'}</table></div>
+  <div class="card"><h2>Downloads</h2><div class="row wrap"><button data-dl="allot1">Phase 1 results</button><button data-dl="allot2">Phase 2 results</button><button data-dl="cands">Registered students</button><button data-dl="prefs">All web options</button></div></div>
+  <div class="card"><h2>Find a student</h2><div class="row"><input id="findht" placeholder="Roll number"><button id="find">Find</button></div><div id="found"></div></div>`;
+}
+async function runServer(ph) {
+  const tok = await accessToken();
+  const r = await fetch(FN_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok, apikey: SUPABASE_KEY }, body: JSON.stringify({ phase: ph, trigger: 'admin' }) });
+  const j = await r.json().catch(() => ({})); if (!r.ok || j.error) throw new Error(j.error || 'HTTP ' + r.status); return j;
+}
+function bindAdmin() {
+  if (!S.adminData) return;
+  $('#refresh').onclick = async () => { await loadAll(); await loadAdmin(); render(); };
+  $('#savesettings').onclick = async () => {
+    const upd = {}; document.querySelectorAll('[data-set]').forEach((i) => (upd[i.dataset.set] = fromLocalInput(i.value)));
+    upd.max_candidates = parseInt($('#maxc').value, 10) || 3000;
+    try { upd.engine_config = JSON.parse($('#ecfg').value || '{}'); } catch { return toast('Engine settings are not valid JSON', true); }
+    const order = ['reg_open', 'reg_close', 'p1_open', 'p1_close', 'p1_run_at', 'p1_publish_at', 'p2_open', 'p2_close', 'p2_run_at', 'p2_publish_at'].filter((k) => upd[k]);
+    for (let i = 1; i < order.length; i++) if (+new Date(upd[order[i]]) < +new Date(upd[order[i - 1]])) return toast(`"${order[i]}" is before "${order[i - 1]}"`, true);
+    upd.updated_at = new Date().toISOString();
+    const { error } = await sb.from('settings').update(upd).eq('id', 1); if (error) return toast(errMsg(error), true);
+    toast('Schedule saved'); await loadAll(); await loadAdmin(); render();
+  };
+  document.querySelectorAll('[data-run]').forEach((b) => (b.onclick = async () => {
+    const ph = +b.dataset.run, where = b.dataset.where;
+    if (!confirm(`Run phase ${ph} allotment now${where === 'browser' ? ' in this browser' : ''}? This replaces existing phase ${ph} results.`)) return;
+    b.disabled = true; b.textContent = 'Running…';
+    try {
+      const r = where === 'server' ? await runServer(ph) : await handleRun({ phase: ph, trigger: 'admin', db: sb }).then((x) => { if (x.status !== 200) throw new Error(x.body.error); return x.body; });
+      toast(r.skipped ? 'Skipped: ' + r.reason : `Done: ${r.allotted} seats allotted`);
+    } catch (e) { toast('Failed: ' + errMsg(e), true); }
+    await loadAll(); await loadAdmin(); render();
+  }));
+  document.querySelectorAll('[data-pub]').forEach((b) => (b.onclick = async () => {
+    const ph = b.dataset.pub; if (!confirm(`Make phase ${ph} results visible to students now?`)) return;
+    const { error } = await sb.from('settings').update({ ['p' + ph + '_publish_at']: new Date().toISOString() }).eq('id', 1);
+    error ? toast(errMsg(error), true) : toast('Published'); await loadAll(); render();
+  }));
+  document.querySelectorAll('[data-dl]').forEach((b) => (b.onclick = async () => {
+    try {
+      const k = b.dataset.dl;
+      const merit = new Map((await pageAll(() => sb.from('merit_list').select('hall_ticket,name,state_rank,neet_rank'))).map((m) => [m.hall_ticket, m]));
+      if (k.startsWith('allot')) {
+        const rows = await pageAll(() => sb.from('allotments').select('state_rank,hall_ticket,category,gender,college,course,seat_label,option_no,allotted_in').eq('phase', +k.slice(5)).order('state_rank'));
+        download(`allotment_phase${k.slice(5)}.csv`, rows.map((r) => ({ merit_position: r.state_rank, roll_no: r.hall_ticket, name: (merit.get(r.hall_ticket) || {}).name, ...r, state_rank: undefined, hall_ticket: undefined })).map(stripU));
+      } else if (k === 'cands') {
+        const rows = await pageAll(() => sb.from('candidates').select('hall_ticket,email,category,gender,msm,in_service,claimed_at,flagged,flag_note'));
+        download('registered_students.csv', rows.map((r) => ({ merit_position: (merit.get(r.hall_ticket) || {}).state_rank, name: (merit.get(r.hall_ticket) || {}).name, ...r })).sort((a, b) => a.merit_position - b.merit_position));
+      } else {
+        const cands = new Map((await pageAll(() => sb.from('candidates').select('user_id,hall_ticket'))).map((c) => [c.user_id, c.hall_ticket]));
+        const prefs = await pageAll(() => sb.from('preferences').select('user_id,phase,program_ids,updated_at,locked_at'));
+        const rows = []; for (const p of prefs) p.program_ids.forEach((id, i) => { const g = S.progById.get(id) || {}; rows.push({ roll_no: cands.get(p.user_id), phase: p.phase, option_no: i + 1, course: g.course, college: g.college, locked: p.locked_at ? 'yes' : 'no' }); });
+        download('web_options.csv', rows);
+      }
+    } catch (e) { toast(errMsg(e), true); }
+  }));
+  $('#find').onclick = async () => {
+    const ht = $('#findht').value.trim(); if (!ht) return;
+    const [m, c] = await Promise.all([sb.from('merit_list').select('*').eq('hall_ticket', ht).maybeSingle(), sb.from('candidates').select('*').eq('hall_ticket', ht).maybeSingle()]);
+    const box = $('#found');
+    if (!m.data) { box.innerHTML = '<p>Not in merit list.</p>'; return; }
+    box.innerHTML = `<p><b>${esc(m.data.name)}</b> · merit position ${m.data.state_rank} · ${esc(m.data.category)}</p>` + (c.data ? `<p>Registered by ${esc(c.data.email)} on ${fmt(c.data.claimed_at)}</p><button class="danger" id="unlink">Remove this registration</button>` : '<p>Not registered.</p>');
+    const u = $('#unlink'); if (u) u.onclick = async () => {
+      if (!confirm('Remove this registration? Their options and decisions are deleted too.')) return;
+      const { error } = await sb.from('candidates').delete().eq('hall_ticket', ht); error ? toast(errMsg(error), true) : (toast('Removed'), (box.innerHTML = ''));
+    };
+  };
+}
+const stripU = (o) => { for (const k of Object.keys(o)) if (o[k] === undefined) delete o[k]; return o; };
+
+// ---------- start ----------
+(async function start() {
+  $('#app').innerHTML = '<div class="card">Loading…</div>';
+  try { await loadAll(); } catch (e) { toast(errMsg(e), true); }
+  render();
+  if (!window.__TEST_TOKEN) sb.auth.onAuthStateChange(async (ev) => { if (ev === 'SIGNED_IN' || ev === 'SIGNED_OUT') { await loadAll(); render(); } });
+  window.__appReady = true;
+})();
+
+</script>
+</body></html>
