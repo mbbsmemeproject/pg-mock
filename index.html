@@ -610,7 +610,6 @@ function render() {
   if (!S.me && !S.isAdmin) { app.innerHTML = head + claimHTML() + timelineHTML(); bindCommon(); bindClaim(); return; }
   const tabs = [['home', 'Home'], ['seats', 'Seats'], ['options', 'Web options'], ['results', 'Results']];
   if (S.isAdmin) tabs.push(['admin', 'Admin']);
-  if (!S.me && S.tab !== 'admin' && S.tab !== 'seats') S.tab = S.isAdmin ? 'admin' : 'home';
   const body = { home: homeHTML, seats: seatsHTML, options: optionsHTML, results: resultsHTML, admin: adminHTML }[S.tab]();
   app.innerHTML = head + `<nav>${tabs.map(([k, v]) => `<button data-tab="${k}" class="${S.tab === k ? 'on' : ''}">${v}</button>`).join('')}</nav>` + body;
   bindCommon();
@@ -683,7 +682,7 @@ function nextStep() {
   return 'Watch this page for the schedule.';
 }
 function homeHTML() {
-  if (!S.me) return `<div class="card"><p>You are signed in as admin. Use the Admin tab.</p></div>` + timelineHTML();
+  if (!S.me) return `<div class="card"><h2>Admin account</h2><p>You are signed in as the organiser. This account has no hall ticket, so it has no options or results of its own. Use the Admin tab to run the mock.</p></div>` + timelineHTML();
   return profileHTML() + `<div class="card next"><b>Next step</b><p>${esc(nextStep())}</p></div>` + timelineHTML();
 }
 
