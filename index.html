@@ -42,6 +42,8 @@ details summary{cursor:pointer;color:var(--acc);margin-top:10px}
 .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(120px);background:#1d2a26;color:#fff;padding:10px 16px;border-radius:12px;transition:.25s;max-width:92vw;z-index:20}
 .toast.show{transform:translateX(-50%) translateY(0)}.toast.bad{background:var(--bad)}
 
+.ok{color:#0b6b3a;font-weight:600}
+
 </style></head>
 <body><div id="app"></div><div id="toast" class="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -838,6 +840,7 @@ function adminHTML() {
     <details><summary>Engine rule settings (advanced)</summary><textarea id="ecfg" rows="6">${esc(JSON.stringify(s.engine_config || {}, null, 1))}</textarea>
     <small>Empty {} = defaults. Example: {"serviceSeatOrder":"nonservice_first","conversions":{"phToGeneral":false}}</small></details>
     <button class="primary" id="savesettings">Save schedule</button>
+    <p id="setmsg" class="${S.savedAt ? 'ok' : ''}">${S.savedAt ? '✓ Saved at ' + fmt(S.savedAt) + '. Check the Home tab schedule.' : ''}</p>
     <p><small>The allotment runs automatically within a minute of its run time. Run time must be after options close.</small></p></div>
   <div class="card"><h2>Allotment</h2>
     <div class="row wrap"><button data-run="1" data-where="server">Run phase 1 now (server)</button><button data-run="2" data-where="server">Run phase 2 now (server)</button></div>
@@ -861,11 +864,19 @@ function bindAdmin() {
     const upd = {}; document.querySelectorAll('[data-set]').forEach((i) => (upd[i.dataset.set] = fromLocalInput(i.value)));
     upd.max_candidates = parseInt($('#maxc').value, 10) || 3000;
     try { upd.engine_config = JSON.parse($('#ecfg').value || '{}'); } catch { return toast('Engine settings are not valid JSON', true); }
-    const order = ['reg_open', 'reg_close', 'p1_open', 'p1_close', 'p1_run_at', 'p1_publish_at', 'p2_open', 'p2_close', 'p2_run_at', 'p2_publish_at'].filter((k) => upd[k]);
-    for (let i = 1; i < order.length; i++) if (+new Date(upd[order[i]]) < +new Date(upd[order[i - 1]])) return toast(`"${order[i]}" is before "${order[i - 1]}"`, true);
+    const NAMES = { reg_open: 'Registration opens', reg_close: 'Registration closes', p1_open: 'Phase 1 options open', p1_close: 'Phase 1 options close',
+      p1_run_at: 'Phase 1 allotment runs', p1_publish_at: 'Phase 1 results published', p2_open: 'Phase 2 opens', p2_close: 'Phase 2 closes',
+      p2_run_at: 'Phase 2 allotment runs', p2_publish_at: 'Phase 2 results published' };
+    // registration may overlap phase-1 options; only these pairs must be in order
+    const rules = [['reg_open', 'reg_close'], ['reg_open', 'p1_open'], ['p1_open', 'p1_close'], ['p1_close', 'p1_run_at'], ['p1_run_at', 'p1_publish_at'],
+      ['p1_publish_at', 'p2_open'], ['p2_open', 'p2_close'], ['p2_close', 'p2_run_at'], ['p2_run_at', 'p2_publish_at']];
+    const msg = $('#setmsg');
+    for (const [a, b] of rules) if (upd[a] && upd[b] && +new Date(upd[b]) < +new Date(upd[a])) {
+      msg.className = 'warn'; msg.textContent = `Not saved: "${NAMES[b]}" must be after "${NAMES[a]}".`; return toast('Not saved — see message under the button', true); }
     upd.updated_at = new Date().toISOString();
-    const { error } = await sb.from('settings').update(upd).eq('id', 1); if (error) return toast(errMsg(error), true);
-    toast('Schedule saved'); await loadAll(); await loadAdmin(); render();
+    const { data: saved, error } = await sb.from('settings').update(upd).eq('id', 1).select('updated_at');
+    if (error || !saved || !saved.length) { msg.className = 'warn'; msg.textContent = 'Not saved: ' + (error ? errMsg(error) : 'no permission (are you signed in as admin?)'); return toast('Not saved', true); }
+    S.savedAt = new Date().toISOString(); toast('Schedule saved'); await loadAll(); await loadAdmin(); render();
   };
   document.querySelectorAll('[data-run]').forEach((b) => (b.onclick = async () => {
     const ph = +b.dataset.run, where = b.dataset.where;
