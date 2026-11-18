@@ -509,7 +509,8 @@ function toast(msg, bad = false) {
   const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : '');
   clearTimeout(toast._t); toast._t = setTimeout(() => (t.className = 'toast'), 4200);
 }
-const errMsg = (e) => (e && (e.message || e.error_description || e.error)) || String(e);
+const call = (p, ms = 25000) => Promise.race([p, new Promise((r) => setTimeout(() => r({ error: { message: 'No response from the server. Check your internet, reload the page and try again.' } }), ms))]);
+const errMsg = (e) => { const m = e && (e.message || e.error_description || e.msg || e.hint || e.details || e.error); return typeof m === 'string' && m ? m : (e && e.code ? 'Server error ' + e.code + '. Please reload and try again.' : 'Something went wrong. Please reload and try again.'); };
 async function pageAll(build) {
   const out = []; const size = 1000;
   for (let from = 0; ; from += size) {
@@ -647,30 +648,34 @@ function bindCommon() {
 function claimHTML() {
   const s = S.settings || {};
   const open = within(s.reg_open, s.reg_close);
+  const why = !s.reg_open ? 'Registration dates have not been set yet. Please wait for the organiser to open registration.'
+    : !after(s.reg_open) ? 'Registration opens on ' + fmt(s.reg_open) + '.' : 'Registration closed on ' + fmt(s.reg_close) + '.';
   return `<div class="card"><h2>Register your hall ticket</h2>
-    ${open ? '' : `<p class="warn">Registration is ${s.reg_open && !after(s.reg_open) ? 'not open yet' : 'closed'}.</p>`}
-    <p>Enter your NEET PG roll number exactly as in the KNRUHS final merit list. Your category, gender, minority and in-service status must match the merit list.</p>
-    <label>NEET PG roll number (hall ticket)<input id="ht" inputmode="numeric" maxlength="11" placeholder="11 digits"></label>
+    ${open ? '' : `<p class="warn"><b>${esc(why)}</b></p>`}
+    <p>Enter your NEET PG roll number exactly as in the KNRUHS final merit list. Your category, gender, minority and in-service status must match the merit list. Your Google account name does not matter.</p>
+    <label>NEET PG roll number (hall ticket)<input id="ht" inputmode="numeric" maxlength="14" placeholder="11 digits, e.g. 26661213035"></label>
     <label>Category<select id="cat">${CATS.map((c) => `<option>${c}</option>`).join('')}</select></label>
     <label>Gender<select id="gen"><option value="F">Female</option><option value="M">Male</option></select></label>
     <label class="chk"><input type="checkbox" id="msm"> Muslim minority (MSM)</label>
     <label class="chk"><input type="checkbox" id="svc"> In-service candidate</label>
-    <button class="primary" id="claim" ${open ? '' : 'disabled'}>Register</button>
-    <p><small>Someone already registered your hall ticket? Contact the admin.</small></p></div>`;
+    <button class="primary big" id="claim" ${open ? '' : 'disabled'}>${open ? 'Register' : 'Registration not open'}</button>
+    <p id="claimmsg" role="status"></p>
+    </div>`;
 }
 function bindClaim() {
   const b = $('#claim'); if (!b) return;
+  const msg = (t, cls) => { const m = $('#claimmsg'); m.className = cls || ''; m.textContent = t; };
   b.onclick = async () => {
-    const ht = $('#ht').value.trim(); if (!/^\d{11}$/.test(ht)) return toast('Roll number must be 11 digits', true);
-    b.disabled = true;
-    const { error } = await sb.rpc('claim_hall_ticket', { p_hall_ticket: ht, p_category: $('#cat').value, p_gender: $('#gen').value,
-      p_ph: false, p_msm: $('#msm').checked, p_in_service: $('#svc').checked });
-    b.disabled = false;
-    if (error) return toast(errMsg(error), true);
-    toast('Registered'); await loadAll(); S.tab = 'home'; render();
+    const ht = $('#ht').value.replace(/\D/g, '');
+    if (ht.length !== 11) return msg('Roll number must be exactly 11 digits. You entered ' + ht.length + '.', 'warn');
+    b.disabled = true; b.textContent = 'Registering…'; msg('Checking your details against the merit list…');
+    const { error } = await call(sb.rpc('claim_hall_ticket', { p_hall_ticket: ht, p_category: $('#cat').value, p_gender: $('#gen').value,
+      p_ph: false, p_msm: $('#msm').checked, p_in_service: $('#svc').checked }));
+    b.disabled = false; b.textContent = 'Register';
+    if (error) return msg('Not registered: ' + errMsg(error) + (/already registered/.test(errMsg(error)) ? ' (send the organiser your roll number and the Gmail you are using)' : ''), 'warn');
+    msg('Registered ✓', 'ok'); toast('Registered'); await loadAll(); S.tab = 'home'; render();
   };
 }
-
 function profileHTML() {
   const m = S.merit || {}, c = S.me;
   return `<div class="card"><h2>${esc(m.name || 'Your profile')}</h2><div class="grid2">
@@ -792,19 +797,19 @@ function bindOptions() {
       (!S.filter.q || (p.college + ' ' + p.course).toLowerCase().includes(S.filter.q.toLowerCase()))).forEach((p) => d().push(p.id)); changed(); };
   const c1 = $('#copy1'); if (c1) c1.onclick = () => { S.draft[2] = [...S.prefs[1].program_ids]; changed(); };
   const sv = $('#save'); if (sv) sv.onclick = async () => {
-    sv.disabled = true; const { error } = await sb.rpc('save_options', { p_phase: ph, p_program_ids: d() });
+    sv.disabled = true; const { error } = await call(sb.rpc('save_options', { p_phase: ph, p_program_ids: d() }));
     if (error) { sv.disabled = false; return toast(errMsg(error), true); }
     S.dirty[ph] = false; toast('Saved ' + d().length + ' options'); await loadAll(); render();
   };
   const lk = $('#lock'); if (lk) lk.onclick = async () => {
     if (!confirm('Lock your options? You cannot change them after locking.')) return;
-    const { error } = await sb.rpc('lock_options', { p_phase: ph }); if (error) return toast(errMsg(error), true);
+    const { error } = await call(sb.rpc('lock_options', { p_phase: ph })); if (error) return toast(errMsg(error), true);
     toast('Locked'); await loadAll(); render();
   };
   const sd = $('#savedec'); if (sd) sd.onclick = async () => {
     const v = (document.querySelector('input[name=dec]:checked') || {}).value; if (!v) return toast('Choose one option', true);
     if (v === 'not_join' && !confirm('Give up your phase-1 seat?')) return;
-    const { error } = await sb.rpc('set_decision', { p_decision: v }); if (error) return toast(errMsg(error), true);
+    const { error } = await call(sb.rpc('set_decision', { p_decision: v })); if (error) return toast(errMsg(error), true);
     toast('Choice saved'); await loadAll(); render();
   };
 }
@@ -941,7 +946,13 @@ const stripU = (o) => { for (const k of Object.keys(o)) if (o[k] === undefined) 
   if (location.href.includes('#') || /code=|error/.test(location.search)) history.replaceState(null, '', location.pathname);
   render();
   if (authErr) toast('Sign-in problem: ' + authErr.replace(/\+/g, ' '), true);
-  if (!window.__TEST_TOKEN) sb.auth.onAuthStateChange(async (ev) => { if (ev === 'SIGNED_IN' || ev === 'SIGNED_OUT') { await loadAll(); render(); } });
+  // IMPORTANT: never await Supabase calls inside this callback (it runs while the auth lock is held -> deadlock).
+  // Only react when the signed-in person actually changes; returning to the tab fires SIGNED_IN again.
+  if (!window.__TEST_TOKEN) sb.auth.onAuthStateChange((ev, session) => {
+    const uid = session && session.user ? session.user.id : null;
+    if ((S.user ? S.user.id : null) === uid) return;
+    setTimeout(async () => { try { await loadAll(); } catch (e) { toast(errMsg(e), true); } render(); }, 0);
+  });
   window.__appReady = true;
 })();
 
