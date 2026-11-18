@@ -44,6 +44,12 @@ details summary{cursor:pointer;color:var(--acc);margin-top:10px}
 
 .ok{color:#0b6b3a;font-weight:600}
 
+.updbar{position:fixed;left:8px;right:8px;top:8px;z-index:30;background:#1d2a26;color:#fff;padding:10px 12px;border-radius:12px;font-size:.9rem}.updbar button{margin-left:6px;min-height:34px;padding:4px 12px}
+
+.wa{display:inline-flex;align-items:center;gap:6px;background:#25d366;color:#fff;text-decoration:none;font-weight:600;border-radius:999px;padding:6px 12px;font-size:.85rem;margin:4px 0}
+.wa::before{content:'\1F4AC'}
+.who{gap:2px}
+
 </style></head>
 <body><div id="app"></div><div id="toast" class="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -490,10 +496,15 @@ async function handleRun({ phase, trigger, db }) {
 const SUPABASE_URL = 'https://uvsdejpaccakhhluldhu.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_JtmJFOdY0Y0mq9dAX4wK4Q_43VAY6R4';
 const TZ = 'Asia/Kolkata';
+const APP_VERSION = '20261118-084514';
 
 const sb = window.__TEST_TOKEN
   ? supabase.createClient(window.__TEST_URL || SUPABASE_URL, SUPABASE_KEY, { accessToken: async () => window.__TEST_TOKEN })
-  : supabase.createClient(window.__TEST_URL || SUPABASE_URL, SUPABASE_KEY);
+  : supabase.createClient(window.__TEST_URL || SUPABASE_URL, SUPABASE_KEY, {
+      // plain in-page lock: an old or frozen tab of this site can never block this one
+      auth: { lock: async (_name, _timeout, fn) => await fn() } });
+const HELP_WA = 'https://wa.me/qr/GZTSG3CA6AMRM1';
+const helpBtn = (label = 'Help on WhatsApp') => `<a class="wa" href="${HELP_WA}" target="_blank" rel="noopener">${label}</a>`;
 const FN_URL = (window.__TEST_URL || SUPABASE_URL) + '/functions/v1/run-allotment';
 
 // ---------- helpers ----------
@@ -605,7 +616,7 @@ function timelineHTML() {
 function render() {
   const app = $('#app');
   const head = `<header><div><h1>Telangana NEET PG Mock Counselling</h1><div class="sub">Convenor (Competent Authority) quota · KNRUHS 2026-27 seat matrix</div></div>
-    ${S.user ? `<div class="who"><small>${esc(S.user.email || '')}</small><button class="link" id="signout">Sign out</button></div>` : ''}</header>
+    <div class="who">${helpBtn('Help')}${S.user ? `<small>${esc(S.user.email || '')}</small><button class="link" id="signout">Sign out</button>` : ''}</div></header>
     <div class="notice">Unofficial practice tool. Not connected to KNRUHS. Results here are a simulation based only on students who take part in this mock.</div>`;
   if (!S.user) { app.innerHTML = head + signInHTML() + timelineHTML(); bindSignIn(); return; }
   if (!S.me && !S.isAdmin) { app.innerHTML = head + claimHTML() + timelineHTML(); bindCommon(); bindClaim(); return; }
@@ -618,7 +629,7 @@ function render() {
 }
 
 function signInHTML() {
-  return `<div class="card"><h2>Sign in</h2><p>Use your Google account. One account can register one NEET PG hall ticket.</p>
+  return `<div class="card"><h2>Sign in</h2><p>Use your Google account. One account can register one NEET PG hall ticket. To use a different Gmail, just pick it on Google's account screen.</p>
     <button class="primary big" id="google">Continue with Google</button>
     <details><summary>Or get a sign-in link by email</summary>
       <div class="row"><input id="email" type="email" placeholder="you@example.com"><button id="emailbtn">Send link</button></div>
@@ -626,7 +637,7 @@ function signInHTML() {
 }
 function bindSignIn() {
   const redirectTo = location.origin + location.pathname;
-  $('#google').onclick = async () => { const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo } }); if (error) toast(errMsg(error), true); };
+  $('#google').onclick = async () => { const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo, queryParams: { prompt: 'select_account' } } }); if (error) toast(errMsg(error), true); };
   $('#emailbtn').onclick = async () => {
     const email = $('#email').value.trim(); if (!email) return;
     const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: redirectTo } });
@@ -664,7 +675,7 @@ function claimHTML() {
 }
 function bindClaim() {
   const b = $('#claim'); if (!b) return;
-  const msg = (t, cls) => { const m = $('#claimmsg'); m.className = cls || ''; m.textContent = t; };
+  const msg = (t, cls, help) => { const m = $('#claimmsg'); m.className = cls || ''; m.textContent = t; if (help) m.insertAdjacentHTML('beforeend', '<br>' + helpBtn('Message the organiser on WhatsApp')); };
   b.onclick = async () => {
     const ht = $('#ht').value.replace(/\D/g, '');
     if (ht.length !== 11) return msg('Roll number must be exactly 11 digits. You entered ' + ht.length + '.', 'warn');
@@ -672,7 +683,7 @@ function bindClaim() {
     const { error } = await call(sb.rpc('claim_hall_ticket', { p_hall_ticket: ht, p_category: $('#cat').value, p_gender: $('#gen').value,
       p_ph: false, p_msm: $('#msm').checked, p_in_service: $('#svc').checked }));
     b.disabled = false; b.textContent = 'Register';
-    if (error) return msg('Not registered: ' + errMsg(error) + (/already registered/.test(errMsg(error)) ? ' (send the organiser your roll number and the Gmail you are using)' : ''), 'warn');
+    if (error) return msg('Not registered: ' + errMsg(error) + (/already registered/.test(errMsg(error)) ? ' Send the organiser your roll number and the Gmail you are using.' : ''), 'warn', true);
     msg('Registered ✓', 'ok'); toast('Registered'); await loadAll(); S.tab = 'home'; render();
   };
 }
@@ -941,7 +952,12 @@ const stripU = (o) => { for (const k of Object.keys(o)) if (o[k] === undefined) 
   $('#app').innerHTML = '<div class="card">Loading…</div>';
   const hp = new URLSearchParams(location.hash.slice(1) + '&' + location.search.slice(1));
   const authErr = hp.get('error_description');
+  const slow = setTimeout(() => {
+    $('#app').innerHTML = `<div class="card"><h2>Still loading…</h2><p>Check your internet. If this site is open in other tabs, close them. Then tap Reload.</p>
+      <div class="row wrap"><button class="primary" onclick="location.replace(location.pathname)">Reload</button>${helpBtn()}</div></div>`;
+  }, 15000);
   try { await loadAll(); } catch (e) { toast(errMsg(e), true); }
+  clearTimeout(slow);
   // remove sign-in tokens / codes from the address bar so a reload or shared link never carries them
   if (location.href.includes('#') || /code=|error/.test(location.search)) history.replaceState(null, '', location.pathname);
   render();
@@ -954,6 +970,25 @@ const stripU = (o) => { for (const k of Object.keys(o)) if (o[k] === undefined) 
     setTimeout(async () => { try { await loadAll(); } catch (e) { toast(errMsg(e), true); } render(); }, 0);
   });
   window.__appReady = true;
+  // ---- auto-update: when a newer index.html is uploaded, phones switch to it by themselves ----
+  async function checkForUpdate() {
+    try {
+      const r = await fetch(location.pathname + '?check=' + Date.now(), { cache: 'no-store' });
+      const m = (await r.text()).match(/const APP_VERSION = '([^']+)'/);
+      if (!m || m[1] === APP_VERSION) return;
+      if (S.dirty[1] || S.dirty[2]) {   // never throw away unsaved options: ask instead
+        if ($('#updbar')) return;
+        const bar = document.createElement('div'); bar.id = 'updbar'; bar.className = 'updbar';
+        bar.innerHTML = 'A newer version of this page is ready. <b>Save your options first</b>, then <button id="updnow">Update</button>';
+        document.body.appendChild(bar); $('#updnow').onclick = () => location.replace(location.pathname + '?v=' + m[1]);
+        return;
+      }
+      location.replace(location.pathname + '?v=' + m[1]);
+    } catch (e) { /* offline: try again later */ }
+  }
+  setTimeout(checkForUpdate, 3000);
+  setInterval(checkForUpdate, 5 * 60 * 1000);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkForUpdate(); });
 })();
 
 </script>
